@@ -18,9 +18,9 @@ Application configuration can be found under /src/main/resources/application.pro
 
 ## Supported REST endpoints
 
-GET localhost:8080
-GET localhost:8080/snoop
-GET localhost:8080/greetings
+GET localhost:8080</br>
+GET localhost:8080/snoop</br>
+GET localhost:8080/greetings</br>
 
 
 

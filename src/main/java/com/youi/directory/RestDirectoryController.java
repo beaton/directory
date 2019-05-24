@@ -6,11 +6,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class RestDirectoryController {
-	
+
 	Logger logger = Logger.getLogger(RestDirectoryController.class);
 
 	@RequestMapping("/greetings")
-    public String index() {
-        return "Greetings from Spring Boot!";
-    }
+	public String index() {
+		return "Greetings from Spring Boot!";
+	}
 }

@@ -20,7 +20,10 @@ Application configuration can be found under /src/main/resources/application.pro
 
 GET localhost:8080</br>
 GET localhost:8080/snoop</br>
-GET localhost:8080/greetings</br>
+GET localhost:8080/health</br>
+POST localhost:8080/find</br>
+
+/find POST request requires header: Content-Type = application/json
 
 
 

@@ -22,8 +22,9 @@ GET localhost:8080</br>
 GET localhost:8080/snoop</br>
 GET localhost:8080/health</br>
 POST localhost:8080/find</br>
+POST localhost:8080/getUserData</br>
 
-/find POST request requires header: Content-Type = application/json
+/find and /getUserData POST requests require header: Content-Type = application/json
 
 
 

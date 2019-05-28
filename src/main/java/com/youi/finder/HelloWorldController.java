@@ -1,4 +1,4 @@
-package com.youi.directory;
+package com.youi.finder;
 
 import java.util.Date;
 import java.util.Map;

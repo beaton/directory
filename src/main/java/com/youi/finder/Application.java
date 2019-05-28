@@ -1,4 +1,4 @@
-package com.youi.directory;
+package com.youi.finder;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

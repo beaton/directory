@@ -1,5 +1,7 @@
 package com.youi.finder.alexa.request;
 
+import java.util.Locale;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -8,8 +10,8 @@ public class Request {
 	private String type;
 	private String requestId;
 	private String timestamp;
-	private String locale;
-	private boolean shouldLinkResultBeReturned;
+	private Locale locale;
+	private Intent intent;
 	
 	public String getType() {
 		return type;
@@ -29,21 +31,22 @@ public class Request {
 	public void setTimestamp(String timestamp) {
 		this.timestamp = timestamp;
 	}
-	public String getLocale() {
+	public Locale getLocale() {
 		return locale;
 	}
-	public void setLocale(String locale) {
+	public void setLocale(Locale locale) {
 		this.locale = locale;
 	}
-	public boolean isShouldLinkResultBeReturned() {
-		return shouldLinkResultBeReturned;
+	public Intent getIntent() {
+		return intent;
 	}
-	public void setShouldLinkResultBeReturned(boolean shouldLinkResultBeReturned) {
-		this.shouldLinkResultBeReturned = shouldLinkResultBeReturned;
+	public void setIntent(Intent intent) {
+		this.intent = intent;
 	}
 	@Override
 	public String toString() {
 		return "Request [type=" + type + ", requestId=" + requestId + ", timestamp=" + timestamp + ", locale=" + locale
-				+ ", shouldLinkResultBeReturned=" + shouldLinkResultBeReturned + "]";
+				+ ", intent=" + intent + "]";
 	}
+	
 }

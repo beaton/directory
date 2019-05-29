@@ -2,9 +2,13 @@ package com.youi.finder.alexa.response;
 
 public class InvocationResponse {
 	
-	private String version;
+	private String version = "1.0";
 	private Response response;
 	private boolean shouldEndSession = true;
+	
+	public InvocationResponse() {
+		response = new Response();
+	}
 	
 	public String getVersion() {
 		return version;

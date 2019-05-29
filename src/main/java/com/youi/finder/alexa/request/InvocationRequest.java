@@ -1,5 +1,7 @@
 package com.youi.finder.alexa.request;
 
+import java.util.Locale;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -8,6 +10,7 @@ public class InvocationRequest {
 	private String version = "1.0";
 	private Session session;
 	private Request request;
+	
 	
 	public String getVersion() {
 		return version;
@@ -31,4 +34,5 @@ public class InvocationRequest {
 	public String toString() {
 		return "InvocationRequest [version=" + version + ", session=" + session + ", request=" + request + "]";
 	}
+	
 }

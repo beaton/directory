@@ -11,6 +11,10 @@ public class Session {
 	private Application application;
 	private User user;
 	
+	public Session() {
+		this.isNew = true;
+	}
+	
 	@JsonProperty("new")
 	public boolean isNew() {
 		return isNew;

@@ -6,7 +6,7 @@ public class OutputSpeech {
 	private String type = "PlainText";
 	
 	/** Plain text string to speak */
-	private String text;
+	private String text = "hello world";
 	
 	/**
 	 * A boolean value that indicates what should happen 

@@ -13,9 +13,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.youi.finder.alexa.request.InvocationRequest;
 import com.youi.finder.alexa.request.Quote;
 import com.youi.finder.alexa.response.InvocationResponse;
+import com.youi.finder.calendar.Calendar;
 
 import org.springframework.web.bind.annotation.*;
-//import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @RestController
 @RequestMapping
@@ -23,8 +24,8 @@ public class RestDirectoryController {
 
 	Logger logger = Logger.getLogger(RestDirectoryController.class);
 
-	// @Autowired
-	// protected Foo request;
+	@Autowired
+	protected Calendar calendar;
 
 	@RequestMapping("/hello")
 	public String index() {
@@ -40,11 +41,20 @@ public class RestDirectoryController {
 	@RequestMapping(value = "/getUsageData", method = RequestMethod.POST)
 	public ResponseEntity getUsageData(@RequestBody InvocationRequest aRequest) {
 		logger.info(aRequest.toString());
-		// TODO: call something autowired to process the request.
+		
+		String name = aRequest.getName();
+		String meetingRoomMsg = null;
+		try  {
+			meetingRoomMsg = this.calendar.getMeetingRoom(name);
+		} catch (Exception e) {
+			logger.error("Error calling Calendar service", e);
+			return ResponseEntity.ok("bad request");
+		}
 
 		ObjectMapper mapper = new ObjectMapper();
 
 		InvocationResponse response = new InvocationResponse();
+		response.setText(meetingRoomMsg);
 
 		String jsonString = null;
 		try {
@@ -78,24 +88,7 @@ public class RestDirectoryController {
 	@RequestMapping(value = "/foo", method = RequestMethod.POST)
 	public ResponseEntity find(@RequestBody Map<String, Object> payload) {
 		logger.info("POST find request: " + payload);
-
-		ObjectMapper mapper = new ObjectMapper();
-
-		InvocationResponse response = new InvocationResponse();
-
-		String jsonString = null;
-		try {
-			jsonString = mapper.writeValueAsString(response);
-			if (logger.isDebugEnabled()) {
-				logger.debug(response.toString());
-			}
-		} catch (JsonProcessingException ex) {
-			logger.error("Error parsing response object", ex);
-			return ResponseEntity.ok("bad request");
-		}
-		return ResponseEntity.ok(jsonString);
-
-		// return ResponseEntity.ok("success!!");
+		return ResponseEntity.ok("success!!");
 	}
 
 	/**

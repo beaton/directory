@@ -8,6 +8,11 @@ public class Name {
 	private String name;
 	private String value;
 	
+	public Name() {
+		this.name = "name";
+		this.value = "ken";
+	}
+	
 	public String getName() {
 		return name;
 	}

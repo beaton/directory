@@ -6,6 +6,10 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 public class Slots {
 	
 	private Name name;
+	
+	public Slots() {
+		name = new Name();
+	}
 
 	public Name getName() {
 		return name;

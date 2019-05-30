@@ -1,7 +1,5 @@
 package com.youi.finder.alexa.request;
 
-import java.util.Locale;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -11,6 +9,12 @@ public class InvocationRequest {
 	private Session session;
 	private Request request;
 	
+	/**
+	 * Convenience method to get the name being requested.
+	 */
+	public String getName() {
+		return this.getRequest().getIntent().getSlots().getName().getValue();
+	}
 	
 	public String getVersion() {
 		return version;

@@ -25,11 +25,11 @@ public class Intent {
 		this.confirmationStatus = confirmationStatus;
 	}
 
-	public Slots getSlot() {
+	public Slots getSlots() {
 		return slots;
 	}
 
-	public void setSlot(Slots slots) {
+	public void setSlots(Slots slots) {
 		this.slots = slots;
 	}
 

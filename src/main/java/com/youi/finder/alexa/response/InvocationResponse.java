@@ -10,6 +10,10 @@ public class InvocationResponse {
 		response = new Response();
 	}
 	
+	public void setText(String responseText) {
+		this.response.getOutputSpeech().setText(responseText);
+	}
+	
 	public String getVersion() {
 		return version;
 	}

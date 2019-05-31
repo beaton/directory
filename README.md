@@ -1,6 +1,8 @@
-# The DIRECTORY service
+# The FINDER service
 
 This is a simple Java web application, built with Spring Boot.
+
+Why would I use Spring boot over an AWS Lambda? Well ... I don't get to code much anymore and I wanted a reference implementation of both Spring boot AND an Alexa skill so this is about killing one bird with two stones. 
 
 ## Minimum configuration
 

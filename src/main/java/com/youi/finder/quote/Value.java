@@ -1,4 +1,4 @@
-package com.youi.finder.alexa.request;
+package com.youi.finder.quote;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 

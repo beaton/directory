@@ -1,92 +1,120 @@
 package com.youi.finder.calendar;
 
 import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponents;
+import org.springframework.web.util.UriComponentsBuilder;
 
+/**
+ * Calendar class represents a Spring Boot service that calls the Google
+ * Calendar Service (in this case, another custom micro-service).
+ * 
+ * Meeting format returned from the downstream micro-service:
+ * 
+ * { "meetings": [ { "name": "Bogus meeting for testing", "room": "Wow" } ] }
+ */
 @Service
 public class Calendar {
-	
+
 	Logger logger = Logger.getLogger(Calendar.class);
 	
-	private Collection<Meeting> meetings;
-	
-	public Calendar() {
-		meetings = new ArrayList<Meeting>();
-	}
-	
+	public String urlFindStaff;
+
 	/**
-	 * Parse the name and call the Google Calendar service to find the person's
-	 * current meeting.
+	 * A user can have zero or more concurrent meetings.
+	 */
+	public Meetings meetings;
+	
+	public Calendar() {}
+	
+	@Autowired
+	public Calendar(@Value("${url.find.staff}") String aUrl) {
+		this.urlFindStaff = aUrl;
+	}
+
+	/**
+	 * Parse the person's name and call the Google Calendar service to find the
+	 * person's current meeting(s).
 	 */
 	public String getMeetingRoom(String name) {
-					
+
+		// TODO: this method is very procedural, fix it.
+		
+		logger.info("Searching meetings in Google Calendar for " + name);
+
 		// Some basic error handling ...
 		if (name == null | name.trim().length() == 0) {
-			return "I'm sorry, I cannot find that name.";
-		}
-		String[] parts = name.split(" ");
-		if (parts.length < 2) {
-			return "I'm sorry, you're going to have to be more specific.";
-		} else if (parts.length > 2) {
-			return "I'm sorry, I cannot find " + parts[0];
+			logger.warn("User name is not applicable");
+			return "I'm sorry, you have to give a name.  Try asking, Google Calendar, where is Ken?";
 		}
 		
+		// Split the name into first and last name.
+		// TODO: consider being more robust in the future.
+		String[] parts = name.split(" ");
+		
+		if (parts.length < 2) {
+			logger.warn("User name is only a single name. We need first and last name.");
+			return "I'm sorry, you're going to have to be more specific, I don't recognize that name.";
+		} else if (parts.length > 2) {
+			logger.warn("User name is more than first and last name, not supported.");
+			return "I'm sorry, I don't currently support more than two names: " + name;
+		}
+
 		// If parts == 2 ...
 		String meetingRoomMsg = null;
 		String staff = parts[0] + "%20" + parts[1];
-		logger.debug(staff);
-		
-		// Call the calendar service
+		URI uri = getUri(staff);
+
 		RestTemplate restTemplate = new RestTemplate();
-		
-		//String address = "http://18.222.251.26:3000/find_staff/" + staff;
-		//URI url = new URI(address);
-		//Meeting meeting = restTemplate.getForObject(url, Meeting.class);
-		
-		String address = "http://18.222.251.26:3000/find_staff/" + staff;		
-		MeetingList response = restTemplate.getForObject(address, MeetingList.class);
-		List<Meeting> meetings = response.getMeetings();
-		
-		logger.debug("Google Calendar request URI: " + address);
-		logger.debug("Google Calendar reponse: " + response);
-		logger.debug("Found meetings: " + meetings);
-		
-		if (meetings.isEmpty()) {
-			meetingRoomMsg = parts[0] + " is not currently scheduled for any meetings.";
-			logger.debug(meetingRoomMsg);
-			return meetingRoomMsg;
+		meetings = restTemplate.getForObject(uri, Meetings.class);
+		logger.info("Found meetings: " + meetings);
+
+		if (meetings.getLength() == 0) {
+			String msg = parts[0] + " is not currently in any meetings.";
+			logger.info(msg);
+			return msg;
 		}
-		
-		Iterator<Meeting> i = meetings.iterator();
+
 		Meeting meeting = null;
-		while (i.hasNext()) {
-			meeting = i.next();
-			logger.debug("Found meeting: " + meeting);
-			
-			//TODO: hack return the first one when there are many.
-			break;
+		String room = null;
+		StringBuffer buffer = new StringBuffer(parts[0] + " is in");
+		for (int i = 0; i < meetings.getLength(); i++) {
+			meeting = meetings.getMeetings()[i];
+			room = meeting.getRoom();
+			buffer.append(" ");
+			buffer.append(room);
 		}
-		
-		meetingRoomMsg = parts[0] + " is in " + meeting.getRoom();
+		meetingRoomMsg = buffer.toString();
+
+		logger.debug("Google Calendar request URI: " + uri.toString());
+		logger.debug("Found meetings: " + meetings);
+
 		logger.info(meetingRoomMsg);
-		
 		return meetingRoomMsg;
 	}
 
-	public Collection<Meeting> getMeetings() {
+	public Meetings getMeetings() {
 		return meetings;
 	}
 
-	public void setMeetings(Collection<Meeting> meetings) {
+	public void setMeetings(Meetings meetings) {
 		this.meetings = meetings;
+	}
+
+	private URI getUri(String name) {
+		String parameter = name;
+		UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(this.urlFindStaff).path(parameter);
+		UriComponents components = builder.build(true);
+		
+		if (logger.isDebugEnabled()) {
+			logger.debug("Google Calendar GET request: " + components.toUri().toString());
+		}
+		return components.toUri();
 	}
 
 	@Override

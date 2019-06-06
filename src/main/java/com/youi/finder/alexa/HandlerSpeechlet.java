@@ -52,7 +52,7 @@ public class HandlerSpeechlet implements SpeechletV2 {
 	@Override
 	public SpeechletResponse onLaunch(SpeechletRequestEnvelope<LaunchRequest> requestEnvelope) {
 
-		logger.info("New conversation initiated");
+		logger.info("New onLaunch conversation initiated");
 		String requestId = requestEnvelope.getRequest().getRequestId();
 		String sessionId = requestEnvelope.getRequest().getRequestId();
 		logger.info("onLaunch requestId=" + requestId + " sessionId=" + sessionId);
@@ -62,7 +62,7 @@ public class HandlerSpeechlet implements SpeechletV2 {
 		session.setAttribute(SESSION_CONVERSATION_FLAG, "true");
 
 		// Create the initial greeting speech.
-		String speechText = "Hello from You I finder. " + SamplesHelpText;
+		String speechText = "Hello from Google Calendar. " + SamplesHelpText;
 
 		Card card = this.newCard("Welcome!", speechText);
 		PlainTextOutputSpeech speech = this.newSpeech(speechText, false);
@@ -79,6 +79,8 @@ public class HandlerSpeechlet implements SpeechletV2 {
 	@Override
 	public SpeechletResponse onIntent(SpeechletRequestEnvelope<IntentRequest> requestEnvelope) {
 
+		logger.info("New onIntent conversation initiated");
+		
 		IntentRequest request = requestEnvelope.getRequest();
 		Session session = requestEnvelope.getSession();
 

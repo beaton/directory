@@ -35,7 +35,7 @@ public class FindPeopleHandler implements IntentHandler {
 	@Override
 	public SpeechletResponse handleIntent(Intent intent, IntentRequest request, Session session) {
 
-		logger.info("Handling find people intent (request).");
+		logger.info("Handling find people intent request.");
 
 		// Get the Talent slot
 
@@ -44,7 +44,7 @@ public class FindPeopleHandler implements IntentHandler {
 		}
 		
 		Slot nameSlot = intent.getSlot("name");
-		String name = parseName(nameSlot.getValue());
+		String name = trimName(nameSlot.getValue());
 		
 		String speechText = calendar.getMeetingRoom(name);
 
@@ -67,7 +67,7 @@ public class FindPeopleHandler implements IntentHandler {
 		}
 	}
 	
-	private String parseName(String name) {
+	private String trimName(String name) {
 		if (name != null) return name.trim();
 		return name;
 	}

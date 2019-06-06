@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
+import com.youi.finder.calendar.Calendar;
 import com.youi.finder.quote.Quote;
 
 @RestController
@@ -23,6 +24,17 @@ public class RestDirectoryController {
 	public String isAlive() {
 		logger.info("GET health status.");
 		return "you bet!";
+	}
+	
+	// Backdoor for testing purposes
+	@RequestMapping(value = "/test", method = RequestMethod.POST)
+	public String test() {
+		
+		Calendar calendar = new Calendar();
+		String response = calendar.getMeetingRoom("ken");
+		
+		return response;
+	
 	}
 
 	// Bonus section ...

@@ -37,10 +37,10 @@ Application configuration can be found under /src/main/resources/application.pro
 
 GET localhost:8080</br>
 GET localhost:8080/snoop</br>
-GET localhost:8080/health</br>: heartbeat endpoint to verify health.
-GET localhost:8080/quote</br>: Calls the Spring Boot random expression generator. This is just for fun.
-POST localhost:8080/find</br>: Called from the com.youi.finder.alexa.config.Configuration servlet and is used to call the HandlerSpeechlet handler factory to process the Alexa request.  This is the endpoint you need to use in your alexa skill.
-
+GET localhost:8080/health heartbeat endpoint to verify health.</br>
+GET localhost:8080/quote Calls the Spring Boot random expression generator. This is just for fun.</br>
+POST localhost:8080/find: Called from the com.youi.finder.alexa.config.Configuration servlet and is used to call the HandlerSpeechlet handler factory to process the Alexa request.  This is the endpoint you need to use in your alexa skill.</br>
+</br>
 /find and POST requests require header: Content-Type = application/json when using Postman.
 
 

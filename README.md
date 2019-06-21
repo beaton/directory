@@ -1,6 +1,6 @@
 # The FINDER service
 
-The Finder service is an Alexa Web Service that handles a variety of requests from an Alexa device through customer handlers. The HandlerSpeechlet class extends the Amazon Alexa SDK SpeechletV2 following a factory pattern to instantiate and respond to the request through the appropriate handler:
+The Finder service is an Alexa Web Service built with Spring Boot that handles a variety of requests from an Alexa device through customer handlers. The HandlerSpeechlet class extends the Amazon Alexa SDK SpeechletV2 following a factory pattern to instantiate and respond to the request through the appropriate handler:
 
 1. AMAZON.CancelIntent - maps to the AmazonCancelIntentHandler class
 2. AMAZON.FallbackIntent - maps to the AmazonFallbackIntentHandler class
@@ -29,16 +29,18 @@ hint: if you have a mac, use homebrew to install the above.
 1. $ mvn clean install
 2. $ mvn spring-boot:run
 
+Alternatively after calling mvn clean install, you can run the application locally in debug mode: java -Xdebug -Xrunjdwp:server=y,transport=dt_socket,address=8000,suspend=n -jar target/directory-0.0.1-SNAPSHOT.war. I use Eclipse, which can then be easily connected to the running application through Debug Configurations and creating a Remote Java Application configuration.
+
 Application configuration can be found under /src/main/resources/application.properties
 
 ## Supported REST endpoints
 
 GET localhost:8080</br>
 GET localhost:8080/snoop</br>
-GET localhost:8080/health</br>: heartbeat endpoint to verify health.
-GET localhost:8080/quote</br>: Calls the Spring Boot random expression generator. This is just for fun.
-POST localhost:8080/find</br>: Called from the com.youi.finder.alexa.config.Configuration servlet and is used to call the HandlerSpeechlet handler factory to process the Alexa request.
-
+GET localhost:8080/health heartbeat endpoint to verify health.</br>
+GET localhost:8080/quote Calls the Spring Boot random expression generator. This is just for fun.</br>
+POST localhost:8080/find: Called from the com.youi.finder.alexa.config.Configuration servlet and is used to call the HandlerSpeechlet handler factory to process the Alexa request.  This is the endpoint you need to use in your alexa skill.</br>
+</br>
 /find and POST requests require header: Content-Type = application/json when using Postman.
 
 

@@ -2,20 +2,17 @@ package com.youi.finder.calendar;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Meetings {
 	
 	private Meeting[] meetings;
 	
 	public Meetings() {}
-
-	public Meeting[]getMeetings() {
-		return meetings;
-	}
-
-	public void setMeetings(Meeting[] meetings) {
-		this.meetings = meetings;
-	}
 	
 	public int getLength() {
 		return meetings.length;

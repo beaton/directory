@@ -20,7 +20,7 @@ public class AlexaUtils {
 
 	protected static final String SESSION_CONVERSATION_FLAG = "conversation";
 
-	public static final String SamplesHelpText = "Try saying: Where is Ken";
+	public static final String SamplesHelpText = "Try saying: Where is Ken Beaton";
 	public static final String RepromptText = "What else can I tell you?  Say \"Help\" for some suggestions.";
 
 	public static Card newCard(String cardTitle, String cardText) {
@@ -29,15 +29,6 @@ public class AlexaUtils {
 		StandardCard card = new StandardCard();
 		card.setTitle((cardTitle == null) ? "Youi Calendar" : cardTitle);
 		card.setText(cardText);
-
-		/*
-		 * Image cardImage = new Image(); cardImage.setSmallImageUrl(
-		 * "https://www.cutlerstew.com/static/images/cutlerstew-720x480.png");
-		 * cardImage.setLargeImageUrl(
-		 * "https://www.cutlerstew.com/static/images/cutlerstew-1200x800.png");
-		 * 
-		 * card.setImage(cardImage);
-		 */
 
 		return card;
 	}

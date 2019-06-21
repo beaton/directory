@@ -3,12 +3,14 @@ package com.youi.finder.calendar;
 import java.net.URI;
 
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
+
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Calendar class represents a Spring Boot service that calls the Google
@@ -19,11 +21,14 @@ import org.springframework.web.util.UriComponentsBuilder;
  * { "meetings": [ { "name": "Bogus meeting for testing", "room": "Wow" } ] }
  */
 @Service
+@Getter
+@Setter
+@ConfigurationProperties(prefix = "calendar")
 public class Calendar {
 
 	Logger logger = Logger.getLogger(Calendar.class);
 	
-	public String urlFindStaff;
+	public String findStaff = "http://18.222.251.26:3000/find_staff/";
 
 	/**
 	 * A user can have zero or more concurrent meetings.
@@ -31,11 +36,6 @@ public class Calendar {
 	public Meetings meetings;
 	
 	public Calendar() {}
-	
-	@Autowired
-	public Calendar(@Value("${url.find.staff}") String aUrl) {
-		this.urlFindStaff = aUrl;
-	}
 
 	/**
 	 * Parse the person's name and call the Google Calendar service to find the
@@ -56,6 +56,18 @@ public class Calendar {
 		// Split the name into first and last name.
 		// TODO: consider being more robust in the future.
 		String[] parts = name.split(" ");
+		if ((parts.length < 2) && (parts[0].equalsIgnoreCase("ken"))) {
+			logger.debug("User requested, Ken. Modifying to Ken Beaton ...");
+			String update[] = {"Ken", "Beaton"};
+			parts = update;
+		}
+		
+		
+		if ((parts.length < 2) && (parts[0].equalsIgnoreCase("jason"))) {
+			logger.debug("User requested, Jason. Modifying to Jason Flick ...");
+			String update[] = {"Jason", "Flick"};
+			parts = update;
+		}
 		
 		if (parts.length < 2) {
 			logger.warn("User name is only a single name. We need first and last name.");
@@ -98,17 +110,9 @@ public class Calendar {
 		return meetingRoomMsg;
 	}
 
-	public Meetings getMeetings() {
-		return meetings;
-	}
-
-	public void setMeetings(Meetings meetings) {
-		this.meetings = meetings;
-	}
-
 	private URI getUri(String name) {
 		String parameter = name;
-		UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(this.urlFindStaff).path(parameter);
+		UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(this.findStaff).path(parameter);
 		UriComponents components = builder.build(true);
 		
 		if (logger.isDebugEnabled()) {

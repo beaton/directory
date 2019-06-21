@@ -26,14 +26,13 @@ public class HandlerSpeechlet implements SpeechletV2 {
 
 	private Logger logger = Logger.getLogger(HandlerSpeechlet.class);
 	protected static final String SESSION_CONVERSATION_FLAG = "conversation";
-	public static final String SamplesHelpText = "Maybe try saying: Where is Jason";
+	public static final String SamplesHelpText = "Maybe try saying: Where is Ken";
 	public static final String RepromptText = "What else can I tell you?  Say \"Help\" for some suggestions.";
 
 	@Autowired
 	private BeanFactory beanFactory;
 
-	public HandlerSpeechlet() {
-	}
+	public HandlerSpeechlet() {}
 
 	/**
 	 * This is invoked when a new Alexa session is started. Any initialization logic
@@ -114,7 +113,7 @@ public class HandlerSpeechlet implements SpeechletV2 {
 		// Handle unknown intents. Ask the user for more info.
 		session.setAttribute(SESSION_CONVERSATION_FLAG, "true");
 
-		String errorText = "I'm sorry Dave, I'm afraid I can't do that. " + HandlerSpeechlet.SamplesHelpText;
+		String errorText = "I'm afraid I can't do that. " + HandlerSpeechlet.SamplesHelpText;
 
 		Card card = this.newCard("Dazed and Confused", errorText);
 		PlainTextOutputSpeech speech = this.newSpeech(errorText, false);

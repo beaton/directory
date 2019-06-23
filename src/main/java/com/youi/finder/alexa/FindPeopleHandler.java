@@ -1,5 +1,6 @@
 package com.youi.finder.alexa;
 
+import java.io.IOException;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
@@ -14,7 +15,8 @@ import com.amazon.speech.speechlet.Session;
 import com.amazon.speech.speechlet.SpeechletResponse;
 import com.amazon.speech.ui.Card;
 import com.amazon.speech.ui.PlainTextOutputSpeech;
-import com.youi.finder.calendar.Calendar;
+import com.youi.finder.google.Calendar;
+import com.youi.finder.google.Event;
 import com.amazon.speech.slu.Slot;
 
 /**
@@ -35,9 +37,7 @@ public class FindPeopleHandler implements IntentHandler {
 	@Override
 	public SpeechletResponse handleIntent(Intent intent, IntentRequest request, Session session) {
 
-		logger.info("Handling find people intent request.");
-
-		// Get the Talent slot
+		logger.info("Handling find people Alexa intent request.");
 
 		if (logger.isDebugEnabled()) {
 			this.logSlots(intent.getSlots());
@@ -46,7 +46,14 @@ public class FindPeopleHandler implements IntentHandler {
 		Slot nameSlot = intent.getSlot("name");
 		String name = trimName(nameSlot.getValue());
 		
-		String speechText = calendar.getMeetingRoom(name);
+		Event calendarEvent = null;
+		String speechText = null;
+		try {
+			speechText = calendar.getCurrentLocation(name);
+		} catch (IOException e) {
+			logger.error(e.getMessage(), e);
+			speechText = "I'm having trouble connecting to Google right now, can you try again later?";
+		}
 
 		Card card = AlexaUtils.newCard("Finder finds ...", speechText);
 		PlainTextOutputSpeech speech = AlexaUtils.newSpeech(speechText, false);

@@ -41,7 +41,7 @@ public class HandlerSpeechlet implements SpeechletV2 {
 	 */
 	@Override
 	public void onSessionStarted(SpeechletRequestEnvelope<SessionStartedRequest> requestEnvelope) {
-		logger.info("New session initiated");
+		logger.info("New Alexa session initiated");
 	}
 
 	/**
@@ -51,7 +51,7 @@ public class HandlerSpeechlet implements SpeechletV2 {
 	@Override
 	public SpeechletResponse onLaunch(SpeechletRequestEnvelope<LaunchRequest> requestEnvelope) {
 
-		logger.info("New onLaunch conversation initiated");
+		logger.info("New Alexa onLaunch conversation initiated");
 		String requestId = requestEnvelope.getRequest().getRequestId();
 		String sessionId = requestEnvelope.getRequest().getRequestId();
 		logger.info("onLaunch requestId=" + requestId + " sessionId=" + sessionId);
@@ -78,7 +78,7 @@ public class HandlerSpeechlet implements SpeechletV2 {
 	@Override
 	public SpeechletResponse onIntent(SpeechletRequestEnvelope<IntentRequest> requestEnvelope) {
 
-		logger.info("New onIntent conversation initiated");
+		logger.info("New Alexa onIntent conversation initiated");
 		
 		IntentRequest request = requestEnvelope.getRequest();
 		Session session = requestEnvelope.getSession();
@@ -93,7 +93,7 @@ public class HandlerSpeechlet implements SpeechletV2 {
 			handlerBeanName = StringUtils.replace(handlerBeanName, "AMAZON.", "Amazon");
 			handlerBeanName = handlerBeanName.substring(0, 1).toLowerCase() + handlerBeanName.substring(1);
 
-			logger.info("About to invoke handler '" + handlerBeanName + "' for intent '" + intentName + "'.");
+			logger.info("About to invoke Alexa handler '" + handlerBeanName + "' for intent '" + intentName + "'.");
 
 			try {
 				Object handlerBean = beanFactory.getBean(handlerBeanName);
@@ -106,14 +106,14 @@ public class HandlerSpeechlet implements SpeechletV2 {
 					}
 				}
 			} catch (Exception e) {
-				logger.error("Error handling intent " + intentName, e);
+				logger.error("Error handling Alexa intent " + intentName, e);
 			}
 		}
 
 		// Handle unknown intents. Ask the user for more info.
 		session.setAttribute(SESSION_CONVERSATION_FLAG, "true");
 
-		String errorText = "I'm afraid I can't do that. " + HandlerSpeechlet.SamplesHelpText;
+		String errorText = "I'm afraid I do not understand. " + HandlerSpeechlet.SamplesHelpText;
 
 		Card card = this.newCard("Dazed and Confused", errorText);
 		PlainTextOutputSpeech speech = this.newSpeech(errorText, false);
@@ -123,7 +123,8 @@ public class HandlerSpeechlet implements SpeechletV2 {
 
 	@Override
 	public void onSessionEnded(SpeechletRequestEnvelope<SessionEndedRequest> requestEnvelope) {
-
+	
+		logger.info("Alexa session ended.");
 	}
 
 	public Card newCard(String cardTitle, String cardText) {

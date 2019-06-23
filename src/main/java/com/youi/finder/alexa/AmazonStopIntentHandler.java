@@ -21,7 +21,7 @@ public class AmazonStopIntentHandler implements IntentHandler {
 	@Override
 	public SpeechletResponse handleIntent(Intent intent, IntentRequest request, Session session) {
 		
-		logger.info("Handling stop request");
+		logger.info("Handling Alexa stop request");
 
 		String speechText= "OK. Goodbye";
 		

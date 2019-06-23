@@ -10,9 +10,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.http.HttpStatus;
 
-import com.youi.finder.calendar.Calendar;
+import com.youi.finder.google.Calendar;
 import com.youi.finder.google.Event;
-import com.youi.finder.google.GoogleCalendar;
 import com.youi.finder.quote.Quote;
 
 @RestController
@@ -22,7 +21,7 @@ public class RestDirectoryController {
 	Logger logger = Logger.getLogger(RestDirectoryController.class);
 	
 	@Autowired
-	GoogleCalendar googleCalendar;
+	Calendar googleCalendar;
 	
 	/**
 	 * Health monitor for I'm alive ping from the Load Balancer. Will return 200
@@ -32,7 +31,7 @@ public class RestDirectoryController {
 	@RequestMapping("/health")
 	public String isAlive() {
 		logger.info("GET health status.");
-		return "you bet!";
+		return "health is good!";
 	}
 	
 	/** 
@@ -46,33 +45,15 @@ public class RestDirectoryController {
 	@RequestMapping(value = "/calendar", method = RequestMethod.GET)
 	public ResponseEntity<String> calendar(@RequestParam("user") String username) {
 
-		String msg = "hello world";
+		String speechText = "hello world";
 		logger.info("Get today's meetings for: " + username);
 		try {
-			Event event = googleCalendar.getCurrentEvent(username);
-			if (event.isNullEvent()) {
-				//User is not currently in any meetings.
-				msg = username + " is " + event.getLocationAsString();
-			} else {
-				//User is currently located in a meeting room or in a meeting.
-				msg = username + " is currently located in " + event.getLocationAsString();
-			}
+			speechText = googleCalendar.getCurrentLocation(username);
 		} catch (Exception e) {
-			msg = "Trouble getting Calendar Service for: " + username;
-			logger.error(msg, e);
+			speechText = "Trouble getting Calendar Service for: " + username;
+			logger.error(speechText, e);
 		}
-		return new ResponseEntity<>(msg, HttpStatus.OK);
-	}
-
-	// Back door for testing purposes
-	@RequestMapping(value = "/test", method = RequestMethod.POST)
-	public String test() {
-
-		Calendar calendar = new Calendar();
-		String response = calendar.getMeetingRoom("ken");
-
-		return response;
-
+		return new ResponseEntity<>(speechText, HttpStatus.OK);
 	}
 
 	// Bonus section ...

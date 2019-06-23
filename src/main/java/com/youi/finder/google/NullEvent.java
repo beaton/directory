@@ -6,7 +6,7 @@ package com.youi.finder.google;
 public class NullEvent extends Event {
 	
 	public NullEvent() {
-		super.location = "not currently in any meetings";
+		super.location = " is not currently in any meetings";
 		super.start = new DateTime();
 		super.status = "available";
 		super.summary = "";

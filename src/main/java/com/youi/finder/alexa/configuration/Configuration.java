@@ -32,6 +32,7 @@ public class Configuration {
 		SpeechletServlet speechletServlet = new SpeechletServlet();
 		speechletServlet.setSpeechlet(handlerSpeechlet);
 		
+		@SuppressWarnings("unchecked")
 		ServletRegistrationBean servletRegistrationBean = new ServletRegistrationBean(speechletServlet, "/find");
 		return servletRegistrationBean;
 	}

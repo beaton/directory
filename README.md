@@ -1,5 +1,7 @@
 # The FINDER service
 
+This is an Alexa Service that calls Google Calendar API to get a person's current event (meeting).
+
 The Finder service is an Alexa Web Service built with Spring Boot that handles a variety of requests from an Alexa device through customer handlers. The HandlerSpeechlet class extends the Amazon Alexa SDK SpeechletV2 following a factory pattern to instantiate and respond to the request through the appropriate handler:
 
 1. AMAZON.CancelIntent - maps to the AmazonCancelIntentHandler class

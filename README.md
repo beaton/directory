@@ -1,5 +1,7 @@
 # The FINDER service
 
+This is an Alexa Service that calls Google Calendar API to get a person's current event (meeting).
+
 The Finder service is an Alexa Web Service built with Spring Boot that handles a variety of requests from an Alexa device through customer handlers. The HandlerSpeechlet class extends the Amazon Alexa SDK SpeechletV2 following a factory pattern to instantiate and respond to the request through the appropriate handler:
 
 1. AMAZON.CancelIntent - maps to the AmazonCancelIntentHandler class
@@ -15,14 +17,16 @@ and,
 
 This is a simple Java web application, built with Spring Boot.
 
-Why would I use Spring boot over an AWS Lambda? Well ... I don't get to code much anymore and I wanted a reference implementation of both Spring boot AND an Alexa skill so this is about killing one bird with two stones. 
+Why would I use Spring boot over an AWS Lambda? Well ... I don't get to code much anymore and I wanted a reference implementation of both Spring boot AND an Alexa skill so this is about killing two birds with one stone. 
 
 ## Minimum configuration
 
 1. java version "1.8.0_45" (build 1.8.0_45-b14)
 2. Apache Maven 3.3.3
 
-hint: if you have a mac, use homebrew to install the above.
+You will need Google API credentials saved to the resources directory in order to get Google Calendar Events from Google Calendar. You can generate JSON format credentials here: https://console.developers.google.com/apis/credentials. Note the application.properties file in the resources directory has a setting for this file in case you call it something different.
+
+Application configuration can be found under /src/main/resources/application.properties
 
 ## Build/Run
 
@@ -31,16 +35,16 @@ hint: if you have a mac, use homebrew to install the above.
 
 Alternatively after calling mvn clean install, you can run the application locally in debug mode: java -Xdebug -Xrunjdwp:server=y,transport=dt_socket,address=8000,suspend=n -jar target/directory-0.0.1-SNAPSHOT.war. I use Eclipse, which can then be easily connected to the running application through Debug Configurations and creating a Remote Java Application configuration.
 
-Application configuration can be found under /src/main/resources/application.properties
-
 ## Supported REST endpoints
 
 GET localhost:8080</br>
 GET localhost:8080/snoop</br>
 GET localhost:8080/health heartbeat endpoint to verify health.</br>
 GET localhost:8080/quote Calls the Spring Boot random expression generator. This is just for fun.</br>
-POST localhost:8080/find: Called from the com.youi.finder.alexa.config.Configuration servlet and is used to call the HandlerSpeechlet handler factory to process the Alexa request.  This is the endpoint you need to use in your alexa skill.</br>
+GET localhost:8080/calendar?user=john%20doe Calls the same behavior Alexa calls via the /find endpoint.</br>
+POST localhost:8080/find Called from the com.youi.finder.alexa.config.Configuration servlet and is used to call the HandlerSpeechlet handler factory to process the Alexa request.  This is the endpoint you need to use in your alexa skill.</br>
 </br>
+
 /find and POST requests require header: Content-Type = application/json when using Postman.
 
 

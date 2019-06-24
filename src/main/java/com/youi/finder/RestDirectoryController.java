@@ -30,7 +30,6 @@ public class RestDirectoryController {
 	 */
 	@RequestMapping("/health")
 	public String isAlive() {
-		logger.info("GET health status.");
 		return "health is good!";
 	}
 	

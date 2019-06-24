@@ -69,8 +69,11 @@ public class Event {
 		return false;
 	}
 	
-	public String getLocationAsString() {
-		return location;
+	/**
+	 * Speech text for location.
+	 */
+	public String getLocationAsSpeech() {
+		return " is currently located in " + location;
 	}
 
 	@Override

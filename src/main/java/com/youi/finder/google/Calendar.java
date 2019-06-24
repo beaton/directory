@@ -117,14 +117,7 @@ public class Calendar {
 		List<Event> items = events.getItems();
 
 		com.youi.finder.google.Event current = getCurrentEvent(items);
-		
-		String speechText = null;
-		if (current instanceof NullEvent) {
-			speechText = firstName + current.getLocationAsString();
-		} else {
-			speechText = firstName + " is currently located in " + current.getLocationAsString();
-		}
-		return speechText;
+		return firstName + current.getLocationAsSpeech();
 	}
 
 	/**
@@ -200,6 +193,8 @@ public class Calendar {
 		}
 		if (nextEvent == null) {
 			nextEvent = new NullEvent();
+		} else if (nextEvent.status.equalsIgnoreCase("cancelled")) {
+			nextEvent = new NullEvent(nextEvent);
 		}
 		return nextEvent;
 	}

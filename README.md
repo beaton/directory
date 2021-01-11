@@ -1,5 +1,7 @@
 # The FINDER service
 
+Welcome to my playground. This is simply an opportunity to play with Spring Boot, AWS, Alexa and because we use Google Calendar at the ofice, Google Calendar.  It is an effort to learn and play - suggestions welcome.
+
 This is an Alexa Service that calls Google Calendar API to get a person's current event (meeting).
 
 The Finder service is an Alexa Web Service built with Spring Boot that handles a variety of requests from an Alexa device through customer handlers. The HandlerSpeechlet class extends the Amazon Alexa SDK SpeechletV2 following a factory pattern to instantiate and respond to the request through the appropriate handler:
@@ -8,10 +10,7 @@ The Finder service is an Alexa Web Service built with Spring Boot that handles a
 2. AMAZON.FallbackIntent - maps to the AmazonFallbackIntentHandler class
 3. AMAZON.HelpIntent - maps to the AmazonHelpIntentHandler class
 4. AMAZON.StopIntent - maps to the AmazonStopIntentHandler class
-
-and,
-
-5 FindPeople - custom intent created to call a serivce.  In this case, it calls the Google Calendar service to then locate people via their Google Calendar (or any other service you imagine).
+5. FindPeople - custom intent created to call a serivce.  In this case, it calls the Google Calendar service to then locate people via their Google Calendar.
 
 ## Why not use a Lambda function?
 
@@ -28,14 +27,32 @@ You will need Google API credentials saved to the resources directory in order t
 
 Application configuration can be found under /src/main/resources/application.properties
 
-## Build/Run
+## Build
 
-1. $ mvn clean install
-2. $ mvn spring-boot:run
+$ mvn clean package (defaults -P development)
 
-Alternatively after calling mvn clean install, you can run the application locally in debug mode: java -Xdebug -Xrunjdwp:server=y,transport=dt_socket,address=8000,suspend=n -jar target/directory-0.0.1-SNAPSHOT.war. I use Eclipse, which can then be easily connected to the running application through Debug Configurations and creating a Remote Java Application configuration.
+Maven build command: mvn clean package -P production</br>
+
+Use: <strong>-P stage</strong> for building to the AWS dev account.</br>
+
+Use: <strong>-P production</strong> for building to the AWS prod account.</br>
+
+To skip tests add: <strong>-Dmaven.test.skip=true</strong></br>
+
+If running locally run in develloment mode, which will use AWS credentials locally stored in .aws directory.</br>
+Deploy in Production mode, where the service will look to IAM permissions to access Cognito (see DAO class for credential management).</br>
+
+Alternatively after calling 'mvn clean package', you can run the application locally in debug mode: </br>
+
+`java -Xdebug -Xrunjdwp:server=y,transport=dt_socket,address=8000,suspend=n -jar target/directory-0.0.1-SNAPSHOT.war. `
+
+Using Eclipse, you can then be easily connected to the running application through Debug Configurations and creating a Remote Java Application configuration.</br>
 
 ## Supported REST endpoints
+
+OpenAPI3.0 (or Swagger) documentation is available here: http://[hostname]:[port]/swagger-ui.html for example, http://lcoalhost:8080/swagger-ui.html
+
+Alternatively, for auto-generating an AWS API Gateway you need the output from /api-docs for example, http://localhost:8080/api-docs
 
 GET localhost:8080</br>
 GET localhost:8080/snoop</br>

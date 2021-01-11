@@ -16,7 +16,7 @@ The Finder service is an Alexa Web Service built with Spring Boot that handles a
 
 This is a simple Java web application, built with Spring Boot.
 
-Why would I use Spring boot over an AWS Lambda? Well ... I don't get to code much anymore and I wanted a reference implementation of both Spring boot AND an Alexa skill so this is about killing two birds with one stone. 
+Why would I use Spring boot deployed into an EC2 instance over an AWS Lambda? Well ... I don't get to code much anymore and I wanted a reference implementation of both Spring boot AND an Alexa skill so this is about killing two birds with one stone. 
 
 ## Minimum configuration
 

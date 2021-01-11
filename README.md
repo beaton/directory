@@ -1,6 +1,6 @@
 # The FINDER service
 
-Welcome to my playground. This is simply an opportunity to play with Spring Boot, AWS, Alexa and because we use Google Calendar at the ofice, Google Calendar.  It is an effort to learn and play - suggestions welcome.
+Welcome to my playground. This is simply an opportunity to play with **Spring Boot**, **AWS**, **Alexa** and because we use Google Calendar at the office, **Google Calendar**.  It is an effort to learn and play - suggestions welcome.
 
 This is an Alexa Service that calls Google Calendar API to get a person's current event (meeting).
 
